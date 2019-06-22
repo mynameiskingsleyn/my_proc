@@ -27,7 +27,7 @@ Route::get('/course', 'CourseController@index')->name('course.home');
 Route::get('/course/create', 'CourseController@create')->name('course.create');
 Route::post('/course/save', 'CourseController@store')->name('course.save');
 Route::get('/course/{bid}', 'CourseController@show')->name('course.show');
-Route::post('/course/delete/{bid}', 'CourseController@delete')->name('course.delete');
+Route::Delete('/course/delete/{bid}', 'CourseController@delete')->name('course.delete');
 Route::get('/course/edit/{bid}', 'CourseController@edit')->name('course.edit');
 Route::put('/course/update/{bid}', 'CourseController@update')->name('course.update');
 
@@ -39,5 +39,5 @@ Route::group(['prefix'=>'api','namespace'=>'CourseApi','middleware'=>[]], functi
     Route::get('/course/show', 'CourseApiController@show')->name('courseApi.show');
     Route::get('/course/save', 'CourseApiController@store')->name('courseApi.store');
     Route::get('/course/update', 'CourseApiController@update')->name('courseApi.update');
-    Route::get('/course/delete/{course}', 'CourseApiController@destroy')->name('courseApi.delete');
+    Route::get('/course/delete', 'CourseApiController@destroy')->name('courseApi.delete');
 });

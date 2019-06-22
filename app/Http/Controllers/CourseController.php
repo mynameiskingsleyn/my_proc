@@ -93,10 +93,9 @@ class CourseController extends Controller
             $data[$key]=$value;
         }
         $method='put';
-        //dd($data);
         $url = 'http://my_proc.test/api/course/save';
         $course = $this->helper->sendRequest($method, $url, $data);
-        dd($course);
+        //dd($course);
         if (isset($course->name)) {
             Session::flash('success', 'Course saved');
         }
@@ -125,7 +124,12 @@ class CourseController extends Controller
         //dd($course);
         return redirect()->back()->withInput();
     }
-    public function delete()
+    public function delete($uuid)
     {
+        $data = ['uuid'=>$uuid];
+        $method = 'delete';
+        $url = 'http://my_proc.test/api/course/delete';
+        $course = $this->helper->sendRequest($method, $url, $data);
+        return redirect()->route('course.home');
     }
 }

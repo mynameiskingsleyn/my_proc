@@ -7,6 +7,7 @@ use App\Course;
 use Illuminate\Http\Request;
 use DB;
 use Log;
+use Illuminate\Support\Facades\Validator;
 
 class CourseApiController extends Controller
 {
@@ -36,7 +37,19 @@ class CourseApiController extends Controller
     public function store(Request $request)
     {
         //
-        //return response()->json($request);
+        //return response()->json($request->input());
+        $rules = [
+                'name'=>'required|max:20',
+                'code'=>'required|max:20',
+                'status'=>'required',
+                'description'=>'required|min:10'
+                ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error'=>'bad request'], 400);
+        }
         $data =[
           'name'=>$request->input('name'),
           'code'=>$request->input('code'),
@@ -44,9 +57,9 @@ class CourseApiController extends Controller
           'description'=>$request->input('description'),
         ];
         //return response()->json($data);
-        DB::enableQueryLog();
+        //DB::enableQueryLog();
         $course = Course::create($data);
-        Log::info(DB::getQueryLog());
+        //  Log::info(DB::getQueryLog());
         //return response()->json($data);
         //if (request()->expectsJson()) {
         return response()->json($course, 201);
@@ -67,11 +80,18 @@ class CourseApiController extends Controller
 
     public function update(Request $request)
     {
-        //
-        //dd('bad bad bad');
+        $rules = [
+                'name'=>'required|max:20',
+                'code'=>'required|max:20',
+                'status'=>'required',
+                'description'=>'required|min:10'
+                ];
 
-        //return response()->json(['no'=>'good'], 200);
-        //return response()->json($request->input());
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error'=>'bad request'], 400);
+        }
         $uuid = $request->input('uuid');
         $course = Course::find($uuid);
         $data =[
@@ -89,19 +109,15 @@ class CourseApiController extends Controller
         return response()->json($course, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Books  $books
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Course $course)
+    public function destroy(Request $request)
     {
-        //
-        $course->delete();
-        //if (request()->expectsJson()) {
-        return response()->json($course, 204);
-        //}
-        return 204;
+        $uuid = $request->get('uuid');
+        $course = Course::find($uuid);
+        // return response()->json($course);
+        if ($course instanceof Course) {
+            $course->delete();
+        }
+        //return response()->json(['not'=>'instance']);
+        return response()->json(['success'=>'deleted course'], 200);
     }
 }

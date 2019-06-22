@@ -26,10 +26,10 @@
                   <textarea class="form-control" name="description" rows="8" cols="80">{{ old('description') ?? 'Enter Description' }}</textarea>
               </div>
               <div class="form-group">
-                <label for="active">Active</label>
-                <select class="" name="active">
-                  <option value="1" {{ old('active')==1 ? 'selected':''}}>yes</option>
-                  <option value="0" {{ old('active')==0 ? 'selected':''}}>No</option>
+                <label for="status">Active</label>
+                <select class="" name="status">
+                  <option value="1" {{ old('status')==1 ? 'selected':''}}>yes</option>
+                  <option value="0" {{ old('status')==0 ? 'selected':''}}>No</option>
                 </select>
               </div>
               @if(Auth::user())

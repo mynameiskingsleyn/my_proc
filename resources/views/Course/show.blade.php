@@ -28,6 +28,7 @@
                                   <form class="" action="{{ route('course.delete',$course->uuid)}}" method="post">
                                     {{csrf_field()}}
                                     {{method_field('DELETE')}}
+                                
                                       <button type="submit" name="button" class="btn btn-link">Delete Course</button>
                                   </form>
 
