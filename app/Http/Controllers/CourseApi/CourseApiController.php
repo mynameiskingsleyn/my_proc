@@ -13,7 +13,7 @@ class CourseApiController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('course.api');
+        $this->middleware('course.api')->except('index');
     }
     /**
      * Display a listing of the resource.

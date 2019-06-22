@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
+use Auth;
 
 class courseApi
 {
@@ -16,7 +17,12 @@ class courseApi
      */
     public function handle($request, Closure $next)
     {
+        $user = Auth::user();
+
         $reqToken = $request->get('api_token');
+        if (!$reqToken && $user) {
+            $reqToken = $user->api_token??null;
+        }
         if ($reqToken) {
             $tokenMatch = User::matchToken($reqToken);
             if (!$tokenMatch) {

@@ -35,7 +35,7 @@ Route::put('/course/update/{bid}', 'CourseController@update')->name('course.upda
 
 //api routes...
 Route::group(['prefix'=>'api','namespace'=>'CourseApi','middleware'=>[]], function () {
-    Route::get('/course', 'CourseApiController@index');
+    Route::get('/course', 'CourseApiController@index')->name('courseApi.index');
     Route::get('/course/show', 'CourseApiController@show')->name('courseApi.show');
     Route::get('/course/save', 'CourseApiController@store')->name('courseApi.store');
     Route::get('/course/update', 'CourseApiController@update')->name('courseApi.update');
