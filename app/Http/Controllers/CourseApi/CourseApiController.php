@@ -56,14 +56,10 @@ class CourseApiController extends Controller
           'status'=>(int)$request->input('status'),
           'description'=>$request->input('description'),
         ];
-        //return response()->json($data);
         //DB::enableQueryLog();
         $course = Course::create($data);
         //  Log::info(DB::getQueryLog());
-        //return response()->json($data);
-        //if (request()->expectsJson()) {
         return response()->json($course, 201);
-        //}
     }
 
     public function show(Request $request)
@@ -106,7 +102,7 @@ class CourseApiController extends Controller
             $course->update($data);
         }
 
-        return response()->json($course, 201);
+        return response()->json($course, 200);
     }
 
     public function destroy(Request $request)
@@ -118,6 +114,6 @@ class CourseApiController extends Controller
             $course->delete();
         }
         //return response()->json(['not'=>'instance']);
-        return response()->json(['success'=>'deleted course'], 200);
+        return response()->json(['success'=>'deleted course'], 204);
     }
 }
