@@ -52,7 +52,7 @@ class ApiTest extends TestCase
         $data['name']='Changed name';
         // update
         $link = '/api/course/update';
-        $response = $this->put($link, $data);
+        $response = $this->patch($link, $data);
         $response->assertStatus(401);
         // delete
         $link = '/api/course/delete';
@@ -117,7 +117,7 @@ class ApiTest extends TestCase
         $check['name']='a new name';
         $this->assertDatabaseMissing('courses', $check);
         $link = '/api/course/update';
-        $response = $this->put($link, $check);
+        $response = $this->patch($link, $check);
         $response->assertStatus(200);
         $this->assertDatabaseHas('courses', $check);
     }

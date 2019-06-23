@@ -1772,6 +1772,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: [],
@@ -38094,32 +38112,60 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("article", [
-      _c("h4", [_vm._v(_vm._s(_vm.name))]),
+      _c("div", { staticClass: "display-4" }, [
+        _vm._v(" " + _vm._s(_vm.name) + " ")
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "body" }, [_vm._v(_vm._s(_vm.description))]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v("-->\n      "),
-      _vm.isActive
-        ? _c("span", [_vm._v("Active")])
-        : _c("span", [_vm._v(" Not Active ")])
+      _c("table", { staticClass: "table" }, [
+        _c("tbody", [
+          _c("tr", [
+            _c("th", [_vm._v("Code")]),
+            _c("td", [_vm._v(_vm._s(_vm.code))])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("th", [_vm._v("Description")]),
+            _c("td", [_vm._v(_vm._s(_vm.description))])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("th", [_vm._v("Status: ")]),
+            _c("td", [
+              _vm.isActive
+                ? _c("span", [_vm._v("Active")])
+                : _c("span", [_vm._v(" Not Active ")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("th", [_vm._v("Code")]),
+            _c("td", [_vm._v(_vm._s(_vm.code))])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("th", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-link",
+                  attrs: { type: "submit", name: "button" },
+                  on: { click: _vm.deleteCourse }
+                },
+                [_vm._v("Delete Course")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "button",
+                { attrs: { id: "show-modal" }, on: { click: _vm.showModal } },
+                [_vm._v("Edit Course ")]
+              )
+            ])
+          ])
+        ])
+      ])
     ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-link",
-        attrs: { type: "submit", name: "button" },
-        on: { click: _vm.deleteCourse }
-      },
-      [_vm._v("Delete Course")]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      { attrs: { id: "show-modal" }, on: { click: _vm.showModal } },
-      [_vm._v("Edit Course ")]
-    ),
     _vm._v(" "),
     _c(
       "div",
@@ -38325,14 +38371,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", [_c("strong", [_vm._v("Status")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

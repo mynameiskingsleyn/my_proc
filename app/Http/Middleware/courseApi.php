@@ -26,10 +26,10 @@ class courseApi
         if ($reqToken) {
             $tokenMatch = User::matchToken($reqToken);
             if (!$tokenMatch) {
-                return response()->json(['error'=>'Unauthorized user'], 401);
+                return response()->json(['message'=>'Unauthorized user'], 401);
             }
         } else {
-            return response()->json(['error'=>'Unauthorized user'], 401);
+            return response()->json(['message'=>'Unauthorized user'], 401);
         }
 
 

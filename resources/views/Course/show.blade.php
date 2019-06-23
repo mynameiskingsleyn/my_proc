@@ -20,9 +20,11 @@
                     <course-show >
 
                     </course-show>
-                      @else($course_err)
-                        <h3> Nothing to display at this time </h3>
-                      @endif
+                    @elseif(isset($course->message))
+                        <h3> {{ $course->message }} </h3>
+                    @else
+                        <h3> Item not found </h3>
+                    @endif
                       <flash message="{{ session('flash') }}"></flash>
               </div>
             </div>
@@ -30,8 +32,3 @@
       </div>
   </div>
 @endsection
-<script>
-  function refresh(){
-    alert('refreshing now');
-  }
-</script>

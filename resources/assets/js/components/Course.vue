@@ -1,18 +1,36 @@
 <template>
   <div>
     <article>
-        <h4>{{ name }}</h4>
-        <!-- check update capability -->
+        <div class="display-4"> {{ name }} </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Code</th><td>{{ code }}</td>
+            </tr>
+            <tr>
+              <th>Description</th><td>{{ description }}</td>
+            </tr>
+            <tr>
+              <th>Status: </th><td>
+                <span v-if="isActive">Active</span>
+                <span v-else> Not Active </span>
+              </td>
+            </tr>
+            <tr>
+              <th>Code</th><td>{{ code }}</td>
+            </tr>
+            <tr>
+              <th><button type="submit" name="button" class="btn btn-link" @click="deleteCourse">Delete Course</button></th>
+              <td><button id="show-modal" @click="showModal">Edit Course </button></td>
+            </tr>
+          </tbody>
 
-        <!-- end can -->
-        <div class="body">{{ description }}</div>
-        <label><strong>Status</strong></label>-->
-        <span v-if="isActive">Active</span>
-        <span v-else> Not Active </span>
 
+
+        </table>
     </article>
-    <button type="submit" name="button" class="btn btn-link" @click="deleteCourse">Delete Course</button>
-    <button id="show-modal" @click="showModal">Edit Course </button>
+
+
     <div class="small-modal">
         <modal v-if="isModalVisible" @close="closeModal" :my_course=Course>
           <template slot="body">

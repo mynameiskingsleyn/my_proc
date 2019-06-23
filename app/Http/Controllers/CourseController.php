@@ -55,7 +55,7 @@ class CourseController extends Controller
         }
         $course = $this->helper->sendRequest($method, $url, $data);
 
-        //dd($course->error);
+        //dd($course->message);
         if ($course) {
             return view('Course.show', compact('course'));
         }
