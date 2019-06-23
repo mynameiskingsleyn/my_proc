@@ -1,5 +1,3 @@
-
-
 <template id="modal-template">
   <transition name="modal">
     <div class="modal-mask">
@@ -8,7 +6,9 @@
 
           <div class="modal-header">
             <slot name="header">
-
+              <button class="modal-default-button" @click="$emit('close')">
+                  close
+              </button>
             </slot>
           </div>
 
@@ -69,6 +69,7 @@ vertical-align: middle;
 
 .modal-container {
 width: 500px;
+max-height: 500px;
 margin: 0px auto;
 padding: 20px 30px;
 background-color: #fff;
@@ -76,6 +77,7 @@ border-radius: 2px;
 box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
 transition: all .3s ease;
 font-family: Helvetica, Arial, sans-serif;
+overflow: scroll;
 }
 
 .modal-header h3 {

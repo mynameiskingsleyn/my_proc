@@ -39,6 +39,6 @@ Route::group(['prefix'=>'api','namespace'=>'CourseApi','middleware'=>[]], functi
     Route::get('/course', 'CourseApiController@index')->name('courseApi.index');
     Route::get('/course/show', 'CourseApiController@show')->name('courseApi.show');
     Route::post('/course/save', 'CourseApiController@store')->name('courseApi.store');
-    Route::put('/course/update', 'CourseApiController@update')->name('courseApi.update');
+    Route::patch('/course/update', 'CourseApiController@update')->name('courseApi.update');
     Route::delete('/course/delete', 'CourseApiController@destroy')->name('courseApi.delete');
 });

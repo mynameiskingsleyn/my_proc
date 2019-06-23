@@ -20,7 +20,8 @@ window.Vue = require('vue');
 Vue.component('flash', require('./components/Flash.vue').default);
 
 Vue.component('course-show',require('./components/Course.vue').default);
-//Vue.component('modal', require('./components/modal.vue').default);
+Vue.component('modal', require('./components/modal.vue').default);
+Vue.component('create-course',require('./components/Create.vue').default);
 
 //Vue.Component('modal-view',require('./components/ModalView'));
 /**

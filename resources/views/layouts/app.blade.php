@@ -21,11 +21,7 @@
         'signedIn' => Auth::check(),
         'user' => Auth::user()
           ]) !!};
-      var course_obj = document.getElementById('courseControl');
-      //alert(course_obj);
-      course_obj.onchange(function(){
-         alert('changed');
-      });
+
     </script>
 
     <!--end scripts -->

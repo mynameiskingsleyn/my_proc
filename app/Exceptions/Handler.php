@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Auth\AuthenticationException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -51,5 +53,12 @@ class Handler extends ExceptionHandler
           'error'=>'Resource not found'], 404);
         }
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $request->expectsJson()
+             ? response()->json(['message'=>'Unauthenticated'], 401)
+             : redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 }

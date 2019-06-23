@@ -1719,7 +1719,17 @@ module.exports = function isBuffer (obj) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal.vue */ "./resources/assets/js/components/modal.vue");
+/* harmony import */ var _mixins_collection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/collection */ "./resources/assets/js/mixins/collection.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1765,9 +1775,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: [],
-  components: {
-    modal: _modal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
+  components: {},
+  mixins: [_mixins_collection__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       isModalVisible: false,
@@ -1778,37 +1787,171 @@ __webpack_require__.r(__webpack_exports__);
       status: window.course.status,
       code: window.course.code,
       isActive: window.course.isActive,
-      signedIn: window.signedIn
+      signedIn: window.App.signedIn,
+      homeUrl: '/course'
     };
   },
   methods: {
-    showModal: function showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal: function closeModal() {
-      this.isModalVisible = false;
-    },
     deleteCourse: function deleteCourse() {
-      alert('delete in progress');
+      var _this = this;
+
+      //this.goHome();
+      axios["delete"]('/api/course/delete', {
+        data: {
+          uuid: this.uuid
+        }
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+        var error = error.response.data.message ? error.response.data.message : 'Unknown Error has occured';
+        flash(error, 'danger');
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log('successfull update');
+        flash('Course has been deleted successfully', 'success');
+
+        _this.closeModal();
+
+        _this.goHome();
+      });
     },
-    update: function update() {
+    update_course: function update_course() {
+      var _this2 = this;
+
       if (this.name.length > 1 && this.description.length > 5 && this.status !== null) {
-        axios.put('/api/course/update', {
-          name: this.name,
-          uuid: this.uuid,
-          description: this.description,
-          status: this.status,
-          code: this.code
-        })["catch"](function (error) {
-          console.log(error);
-          flash(error.response.data, 'danger');
-        }).then(function (_ref) {
-          var data = _ref.data;
-          console.log('successfull update');
-          flash('Course has been updated successfully', 'success'); //this.$emit('updated',data);
-        });
+        if (this.signedIn) {
+          axios.patch('/api/course/update', {
+            name: this.name,
+            uuid: this.uuid,
+            description: this.description,
+            status: this.status,
+            code: this.code
+          })["catch"](function (error) {
+            console.log(error.response);
+            var error = error.response.data.message ? error.response.data.message : 'Unknown Error has occured';
+            flash(error, 'danger');
+          }).then(function (_ref2) {
+            var data = _ref2.data;
+            console.log('successfull update');
+            flash('Course has been updated successfully', 'success');
+
+            _this2.closeModal();
+
+            _this2.goHome();
+          });
+        } else {
+          flash('UnAuthorized operation', 'danger');
+        }
       } else {
-        flash('please check inputs and try again');
+        flash('please check inputs and try again', 'error');
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/Create.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/Create.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_collection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/collection */ "./resources/assets/js/mixins/collection.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  mixins: [_mixins_collection__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  data: function data() {
+    return {
+      name: 'new course',
+      description: 'Describe',
+      status: 1,
+      code: '',
+      isModalVisible: false,
+      signedIn: window.App.signedIn,
+      homeUrl: '/course'
+    };
+  },
+  methods: {
+    create_course: function create_course() {
+      var _this = this;
+
+      if (this.name.length > 1 && this.description.length > 5 && this.status !== null) {
+        if (this.signedIn) {
+          axios.post('/api/course/save', {
+            name: this.name,
+            description: this.description,
+            status: this.status,
+            code: this.code
+          })["catch"](function (error) {
+            console.log(error.response.data);
+            var message = error.response.data.message ? error.response.data.message : 'Unknown Error has occured';
+            flash(message, 'danger');
+          }).then(function (_ref) {
+            var data = _ref.data;
+            console.log('successfully created');
+
+            if (data) {
+              console.log(data.response);
+            }
+
+            flash('Course has been created successfully', 'success');
+
+            _this.closeModal();
+
+            _this.goHome();
+          });
+        } else {
+          flash('UnAuthorized operation', 'danger');
+        }
+      } else {
+        flash('please check inputs and try again', 'error');
       }
     }
   }
@@ -1868,7 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
 
       setTimeout(function () {
         _this2.show = false;
-      }, 20000);
+      }, 5000);
     },
     updateMyLevel: function updateMyLevel(level) {
       this.myLevel = level;
@@ -6434,7 +6577,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.modal-mask {\nposition: fixed;\nz-index: 9998;\ntop: 0;\nleft: 0;\nwidth: 100%;\nheight: 100%;\nbackground-color: rgba(0, 0, 0, .5);\ndisplay: table;\ntransition: opacity .3s ease;\n}\n.modal-wrapper {\ndisplay: table-cell;\nvertical-align: middle;\n}\n.modal-container {\nwidth: 500px;\nmargin: 0px auto;\npadding: 20px 30px;\nbackground-color: #fff;\nborder-radius: 2px;\nbox-shadow: 0 2px 8px rgba(0, 0, 0, .33);\ntransition: all .3s ease;\nfont-family: Helvetica, Arial, sans-serif;\n}\n.modal-header h3 {\nmargin-top: 0;\ncolor: #42b983;\n}\n.modal-body {\nmargin: 20px 0;\n}\n.modal-default-button {\nfloat: right;\n}\n\n/*\n* The following styles are auto-applied to elements with\n* transition=\"modal\" when their visibility is toggled\n* by Vue.js.\n*\n* You can easily play with the modal transition by editing\n* these styles.\n*/\n.modal-enter {\nopacity: 0;\n}\n.modal-leave-active {\nopacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n-webkit-transform: scale(1.1);\ntransform: scale(1.1);\n}\n", ""]);
+exports.push([module.i, "\n.modal-mask {\nposition: fixed;\nz-index: 9998;\ntop: 0;\nleft: 0;\nwidth: 100%;\nheight: 100%;\nbackground-color: rgba(0, 0, 0, .5);\ndisplay: table;\ntransition: opacity .3s ease;\n}\n.modal-wrapper {\ndisplay: table-cell;\nvertical-align: middle;\n}\n.modal-container {\nwidth: 500px;\nmax-height: 500px;\nmargin: 0px auto;\npadding: 20px 30px;\nbackground-color: #fff;\nborder-radius: 2px;\nbox-shadow: 0 2px 8px rgba(0, 0, 0, .33);\ntransition: all .3s ease;\nfont-family: Helvetica, Arial, sans-serif;\noverflow: scroll;\n}\n.modal-header h3 {\nmargin-top: 0;\ncolor: #42b983;\n}\n.modal-body {\nmargin: 20px 0;\n}\n.modal-default-button {\nfloat: right;\n}\n\n/*\n* The following styles are auto-applied to elements with\n* transition=\"modal\" when their visibility is toggled\n* by Vue.js.\n*\n* You can easily play with the modal transition by editing\n* these styles.\n*/\n.modal-enter {\nopacity: 0;\n}\n.modal-leave-active {\nopacity: 0;\n}\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n-webkit-transform: scale(1.1);\ntransform: scale(1.1);\n}\n", ""]);
 
 // exports
 
@@ -37950,6 +38093,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("article", [
+      _c("h4", [_vm._v(_vm._s(_vm.name))]),
+      _vm._v(" "),
+      _c("div", { staticClass: "body" }, [_vm._v(_vm._s(_vm.description))]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v("-->\n      "),
+      _vm.isActive
+        ? _c("span", [_vm._v("Active")])
+        : _c("span", [_vm._v(" Not Active ")])
+    ]),
+    _vm._v(" "),
     _c(
       "button",
       {
@@ -37978,12 +38133,274 @@ var render = function() {
                 on: { close: _vm.closeModal }
               },
               [
-                _c("template", { slot: "header" }, [
-                  _vm._v(_vm._s(_vm.Course.name) + " ")
-                ]),
-                _vm._v(" "),
                 _c("template", { slot: "body" }, [
-                  _c("form", { on: { submit: _vm.update } }, [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.update_course($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.name,
+                              expression: "name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "name",
+                            required: "",
+                            id: "name"
+                          },
+                          domProps: { value: _vm.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.name = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "code" } }, [
+                          _vm._v("Code")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.code,
+                              expression: "code"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "code",
+                            required: "",
+                            id: "code"
+                          },
+                          domProps: { value: _vm.code },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.code = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "status" } }, [
+                          _vm._v("Status")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.status,
+                                expression: "status"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.status = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "1" } }, [
+                              _vm._v("Active")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Not Active")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "description" } }, [
+                          _vm._v("Description")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.description,
+                              expression: "description"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            name: "reply",
+                            rows: "4",
+                            required: "",
+                            minlength: "10",
+                            id: "description"
+                          },
+                          domProps: { value: _vm.description },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.description = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.uuid,
+                            expression: "uuid"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "uuid" },
+                        domProps: { value: _vm.uuid },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.uuid = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("button", { staticClass: "btn btn-xs btn-link" }, [
+                        _vm._v(" Update ")
+                      ])
+                    ]
+                  )
+                ])
+              ],
+              2
+            )
+          : _vm._e()
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("strong", [_vm._v("Status")])])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/Create.vue?vue&type=template&id=0e5f501a&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/Create.vue?vue&type=template&id=0e5f501a& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {},
+    [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link",
+          attrs: { href: "#", id: "show-create-modal" },
+          on: { click: _vm.showModal }
+        },
+        [_vm._v("Create new Course")]
+      ),
+      _vm._v(" "),
+      _vm.isModalVisible
+        ? _c(
+            "modal",
+            { on: { close: _vm.closeModal } },
+            [
+              _c("template", { slot: "header" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "modal-default-button",
+                    on: {
+                      click: function($event) {
+                        return _vm.closeModal()
+                      }
+                    }
+                  },
+                  [_vm._v("\n          close\n      ")]
+                ),
+                _vm._v("\n      Create new Course\n    ")
+              ]),
+              _vm._v(" "),
+              _c("template", { slot: "body" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.create_course($event)
+                      }
+                    }
+                  },
+                  [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
                       _vm._v(" "),
@@ -38107,8 +38524,9 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: {
                           name: "reply",
-                          rows: "8",
+                          rows: "4",
                           required: "",
+                          minlength: "10",
                           id: "description"
                         },
                         domProps: { value: _vm.description },
@@ -38123,40 +38541,19 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.uuid,
-                          expression: "uuid"
-                        }
-                      ],
-                      attrs: { type: "hidden", name: "uuid" },
-                      domProps: { value: _vm.uuid },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.uuid = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
                     _c("button", { staticClass: "btn btn-xs btn-link" }, [
-                      _vm._v(" Update ")
+                      _vm._v(" Create ")
                     ])
-                  ])
-                ])
-              ],
-              2
-            )
-          : _vm._e()
-      ],
-      1
-    )
-  ])
+                  ]
+                )
+              ])
+            ],
+            2
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38216,7 +38613,27 @@ var render = function() {
     _c("div", { staticClass: "modal-mask" }, [
       _c("div", { staticClass: "modal-wrapper" }, [
         _c("div", { staticClass: "modal-container" }, [
-          _c("div", { staticClass: "modal-header" }, [_vm._t("header")], 2),
+          _c(
+            "div",
+            { staticClass: "modal-header" },
+            [
+              _vm._t("header", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "modal-default-button",
+                    on: {
+                      click: function($event) {
+                        return _vm.$emit("close")
+                      }
+                    }
+                  },
+                  [_vm._v("\n                close\n            ")]
+                )
+              ])
+            ],
+            2
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -50424,8 +50841,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('flash', __webpack_require__(/*! ./components/Flash.vue */ "./resources/assets/js/components/Flash.vue")["default"]);
-Vue.component('course-show', __webpack_require__(/*! ./components/Course.vue */ "./resources/assets/js/components/Course.vue")["default"]); //Vue.component('modal', require('./components/modal.vue').default);
-//Vue.Component('modal-view',require('./components/ModalView'));
+Vue.component('course-show', __webpack_require__(/*! ./components/Course.vue */ "./resources/assets/js/components/Course.vue")["default"]);
+Vue.component('modal', __webpack_require__(/*! ./components/modal.vue */ "./resources/assets/js/components/modal.vue")["default"]);
+Vue.component('create-course', __webpack_require__(/*! ./components/Create.vue */ "./resources/assets/js/components/Create.vue")["default"]); //Vue.Component('modal-view',require('./components/ModalView'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -50608,6 +51026,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Create.vue":
+/*!***************************************************!*\
+  !*** ./resources/assets/js/components/Create.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Create_vue_vue_type_template_id_0e5f501a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=0e5f501a& */ "./resources/assets/js/components/Create.vue?vue&type=template&id=0e5f501a&");
+/* harmony import */ var _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/Create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Create_vue_vue_type_template_id_0e5f501a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Create_vue_vue_type_template_id_0e5f501a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/Create.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Create.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/assets/js/components/Create.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/Create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Create.vue?vue&type=template&id=0e5f501a&":
+/*!**********************************************************************************!*\
+  !*** ./resources/assets/js/components/Create.vue?vue&type=template&id=0e5f501a& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_0e5f501a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=template&id=0e5f501a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/Create.vue?vue&type=template&id=0e5f501a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_0e5f501a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_0e5f501a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Flash.vue":
 /*!**************************************************!*\
   !*** ./resources/assets/js/components/Flash.vue ***!
@@ -50779,6 +51266,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_vue_vue_type_template_id_514744a6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins/collection.js":
+/*!**************************************************!*\
+  !*** ./resources/assets/js/mixins/collection.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    showModal: function showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal: function closeModal() {
+      this.isModalVisible = false;
+    },
+    goHome: function goHome() {
+      var _this = this;
+
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      //alert(this.homeUrl);
+      setTimeout(function () {
+        if (url) {
+          document.location.replace(url);
+        } else {
+          document.location.replace(_this.homeUrl);
+        }
+      }, 5000);
+    }
+  }
+});
 
 /***/ }),
 

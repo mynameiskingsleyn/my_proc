@@ -14,6 +14,7 @@
                             </div>
                         @endif
                         <div class="float-right" >
+                          <label for="">Filter:</label>
                           <select class="" name="courseControl" id="courseControl" onchange="doChanging()">
                             @foreach($status as $stat)
                               <option value="{{ $stat }}" {{ $selected == $stat ?'selected':'' }}>{{ $stat }}</option>
@@ -36,7 +37,7 @@
             </div>
         </div>
     </div>
-
+    <flash message="{{ session('flash') }}"></flash>
 @endsection
 
 @section('scripts')

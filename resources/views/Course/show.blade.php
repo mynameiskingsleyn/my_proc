@@ -17,25 +17,13 @@
                         </div>
                     @endif
                     @if(isset($course->name))
-                      <article>
-                          <h4>{{ $course->name }}</h4>
-                          <!-- check update capability -->
+                    <course-show >
 
-                          <!-- end can -->
-                          <div class="body">{{ $course->description }}</div>
-                          <label><strong>Status</strong></label>-->
-                          @if($course->isActive)
-                          Active
-                          @else
-                          Not Active
-                          @endif
-                          <course-show @updated="refresh">
-
-                          </course-show>
-                      </article>
+                    </course-show>
                       @else($course_err)
                         <h3> Nothing to display at this time </h3>
                       @endif
+                      <flash message="{{ session('flash') }}"></flash>
               </div>
             </div>
           </div>

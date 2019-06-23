@@ -21,7 +21,7 @@ class courseApi
 
         $reqToken = $request->get('api_token');
         if (!$reqToken && $user) {
-            $reqToken = $user->api_token??null;
+            $reqToken = $user->api_token? : '000';
         }
         if ($reqToken) {
             $tokenMatch = User::matchToken($reqToken);
