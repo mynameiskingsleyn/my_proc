@@ -13,7 +13,17 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        <div class="float-right" >
+                          <select class="" name="courseControl" id="courseControl" onchange="doChanging()">
+                            @foreach($status as $stat)
+                              <option value="{{ $stat }}" {{ $selected == $stat ?'selected':'' }}>{{ $stat }}</option>
+                            @endforeach
+
+                          </select>
+                        </div>
+
                         @if(is_array($courses))
+
                           @include('Course.list')
                         @else
                           <p>{{ $course->error?? 'nothing to display, token required' }} </p>
@@ -26,5 +36,18 @@
             </div>
         </div>
     </div>
+
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+  function doChanging(){
+    var courseC = document.getElementById('courseControl');
+    var cValue = courseC.value;
+    //alert(courseC.value)
+    document.location.href="?courseControl="+cValue;
+  }
+
+</script>
 
 @endsection

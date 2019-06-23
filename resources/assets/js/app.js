@@ -7,7 +7,6 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -18,15 +17,18 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+Vue.component('flash', require('./components/Flash.vue').default);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('course-show',require('./components/Course.vue').default);
+//Vue.component('modal', require('./components/modal.vue').default);
 
+//Vue.Component('modal-view',require('./components/ModalView'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+Vue.templateCache = false;
 const app = new Vue({
     el: '#app',
 });

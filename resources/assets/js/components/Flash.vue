@@ -36,7 +36,7 @@
           hide(){
             setTimeout(() => {
               this.show = false;
-            },10000);
+            },20000);
           },
           updateMyLevel(level){
             this.myLevel = level;

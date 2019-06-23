@@ -101,7 +101,7 @@ class ApiTest extends TestCase
         // delete item..
         $link = '/api/course/delete';
         $response = $this->delete($link, $check);
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('courses', $check);
     }
 

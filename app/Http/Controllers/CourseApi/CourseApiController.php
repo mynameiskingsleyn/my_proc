@@ -20,11 +20,24 @@ class CourseApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $selected = 'All';
+        if ($request->has('selected')) {
+            $selected = $request->get('selected');
+        }
+        DB::enableQueryLog();
+        if ($selected =='active') {
+            $courses = Course::where('status', '=', 1)->get();
+        } elseif ($selected == 'noneactive') {
+            $courses = Course::where('status', '=', 0)->get();
+        } else {
+            $courses = Course::All();
+        }
+        Log::info(DB::getQueryLog());
+        //dd($selected);
 
-        $courses = Course::All();
         return response()->json($courses, 200);
     }
 

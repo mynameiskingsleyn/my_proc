@@ -19,5 +19,5 @@
     </article>
         <hr>
 @empty
-  <p>There are no Books available now</p>
+  <p>There are no Courses to display</p>
 @endforelse

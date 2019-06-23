@@ -18,13 +18,17 @@ class CourseController extends Controller
         $this->helper = $helper;
     }
     //
-    public function index()
+    public function index(Request $request)
     {
         $url = 'http://my_proc.test/api/course';
-        //dd('here');
-        //dd('we are here onn index controller');
-        $this->user = Auth::user();
+        $selected = 'All';
         $data = [];
+        if ($request->has('courseControl')) {
+            $selected = $request->get('courseControl');
+            $data['selected']=$selected;
+        }
+        $this->user = Auth::user();
+
         if ($this->user) {
             $data['api_token']=$this->user->api_token;
         }
@@ -32,9 +36,10 @@ class CourseController extends Controller
         $method = 'get';
 
         $courses = $this->helper->sendRequest($method, $url, $data);
-
+        $status =['All','active','noneactive'];
         //dd($courses);
-        return view('Course.index', compact('courses'));
+        //dd($status);
+        return view('Course.index', compact('courses', 'status', 'selected'));
     }
 
     public function show($bid)
