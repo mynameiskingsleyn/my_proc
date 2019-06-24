@@ -35,7 +35,7 @@ class CourseApiController extends Controller
         } else {
             $courses = Course::orderBy('created_at', 'desc')->get();
         }
-        Log::info(DB::getQueryLog());
+        //Log::info(DB::getQueryLog());
         //dd($selected);
 
         return response()->json($courses, 200);
@@ -121,13 +121,12 @@ class CourseApiController extends Controller
     public function destroy(Request $request)
     {
         $uuid = $request->get('uuid');
-        Log::debug('destroy api has been hit is id '.$uuid);
+        //Log::debug('destroy api has been hit is id '.$uuid);
         $course = Course::find($uuid);
         // return response()->json($course);
         if ($course instanceof Course) {
             $course->delete();
         }
-        //return response()->json(['not'=>'instance']);
         return response()->json(['message'=>'deleted course'], 204);
     }
 }
