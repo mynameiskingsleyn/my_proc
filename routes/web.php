@@ -24,7 +24,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::post('/token_request', 'TokenController@requestToken')->name('requestToken');
 Route::get('/course', 'CourseController@index')->name('course.home');
-Route::get('/course/create', 'CourseController@create')->name('course.create');
+//Route::get('/course/create', 'CourseController@create')->name('course.create');
 Route::get('/course/{bid}', 'CourseController@show')->name('course.show');
 // Route::post('/course/save', 'CourseController@store')->name('course.save');
 
