@@ -11,7 +11,7 @@
       </li>
       <li class="nav-item">
         <create-course> </create-course>
-        <!-- <a class="nav-link" href="{{route('course.create')}}">Create new Course</a> -->
+        
       </li>
     </ul>
     <ul class="my-2 my-lg-0">

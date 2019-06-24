@@ -45,7 +45,6 @@
   function doChanging(){
     var courseC = document.getElementById('courseControl');
     var cValue = courseC.value;
-    //alert(courseC.value)
     document.location.href="?courseControl="+cValue;
   }
 
